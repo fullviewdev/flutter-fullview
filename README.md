@@ -1,6 +1,6 @@
 # Flutter Developer Documentation
 
-**Current version:** 0.9.7
+**Current version:** 0.10.0
 
 Flutter SDK supports following platforms:
 
@@ -50,6 +50,7 @@ A minimal implementation looks like the following:
 
 ```dart
 import 'package:flutter_fullview/flutter_fullview.dart';
+import 'package:flutter_fullview/flutter_fullview_region.dart';
 
 // ...
 
@@ -63,11 +64,12 @@ try {
 
 try {
   await _flutterFullviewPlugin.register(
-    organisationId: '<organisation_id>', 
-    userId: '<user_id>', 
-    deviceId: '<device_id>', 
-    name: '<name>', 
-    email: '<email>'
+    region: <FullviewRegion>, 
+    organisationId: '<String>', 
+    userId: '<String>', 
+    deviceId: '<String>', 
+    name: '<String>', 
+    email: '<String>'
   );
 } catch (e) {
   log("An error occurred while starting SDK", error: e, name: "Example");
@@ -90,6 +92,7 @@ And use `_flutterFullviewPlugin.logout()` to disconnect and disable the SDK.
    Attaches fullview SDK to the host app. Should be called as soon as the app starts.
 
 - `Future<void> register({
+	 required FullviewRegion region,
     required String organisationId,
     required String userId,
     required String deviceId,
