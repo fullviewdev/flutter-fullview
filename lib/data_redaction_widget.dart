@@ -13,12 +13,17 @@ class DataRedactionWidget extends StatefulWidget {
   /// Returns a Future that resolves to a list of coordinates and sizes of all active instances.
   static Future<List<Map<String, dynamic>>> getAllCoordinatesAndSizes() async {
     final Completer<List<Map<String, dynamic>>> completer = Completer();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final data = _activeInstances.map((instance) {
-        return instance._getPositionAndSize();
-      }).toList();
-      completer.complete(data);
-    });
+    if (_activeInstances.isEmpty) {
+      return Future.value([]);
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final data = _activeInstances.map((instance) {
+          return instance._getPositionAndSize();
+        }).toList();
+        completer.complete(data);
+      });
+      WidgetsBinding.instance.ensureVisualUpdate();
+    }
     return completer.future;
   }
 

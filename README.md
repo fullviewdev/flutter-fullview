@@ -1,6 +1,6 @@
 # Flutter Developer Documentation
 
-**Current version:** 0.10.0
+**Current version:** 0.10.2
 
 Flutter SDK supports following platforms:
 
@@ -36,11 +36,18 @@ dependencies:
 ## Configuration
 
 ### iOS Requirements
+- Minimum `platform :ios, '15.0'` in your **Podfile**.
 - Add the following permissions in your *app's xcodeproject Info.plist*, if you don't already have them:
 	- **NSMicrophoneUsageDescription**
 	- **NSCameraUsageDescription**
 	- **UIBackgroundModes** **voip**
 
+### Android Requirements
+
+- Gradle plugin to be at least version 8.5
+- Set minSDKVersion of the Android build to be 27 (or higher)
+- Enable jetifier in `gradle.properties`
+- Change `MainActivity` to inherit from `FlutterFragmentActivity` instead of `FlutterActivity`
 
 ## Usage
 
