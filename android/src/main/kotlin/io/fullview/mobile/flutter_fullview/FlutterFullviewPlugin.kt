@@ -1,7 +1,6 @@
 package io.fullview.mobile.flutter_fullview
 
 import android.app.Activity
-import android.util.Log
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -12,6 +11,8 @@ import io.fullview.fullview_sdk.Fullview
 import io.fullview.fullview_sdk.HostType
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.fullview.fullview_sdk.Region
+import java.lang.IllegalStateException
 
 /** FlutterFullviewPlugin */
 class FlutterFullviewPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -84,14 +85,21 @@ class FlutterFullviewPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     private fun register(call: MethodCall, result: Result) {
+      val region : Region = call.argument<String>("region")?.uppercase().let {
+          when(it) {
+              "EU1" -> Region.EU1
+              "EU2" -> Region.EU2
+              "US1" -> Region.US1
+              else -> throw IllegalStateException("Illegal region type $it")
+          }
+      }
       val organisationId = call.argument<String>("organisationId")!!
       val userId = call.argument<String>("userId")!!
       val deviceId = call.argument<String>("deviceId")!!
       val name = call.argument<String>("name")!!
       val email = call.argument<String>("email")!!
 
-
-      fullview.register(organisationId, userId, deviceId, name, email)
+      fullview.register(organisationId, userId, deviceId, name, email, region)
       result.success(null)
     }
 
